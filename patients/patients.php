@@ -1,7 +1,7 @@
 <?php
 // Page Specific Configuration
 $pageTitle = "Unity Care - Patients";
-$headerTitle = "Patient Management";
+$headerTitle = "Patient - Management";
 
 
 include '../dashboard/header.php';
