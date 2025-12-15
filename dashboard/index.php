@@ -3,21 +3,38 @@
 $pageTitle = "Unity Care - Dashboard";
 $headerTitle = "Good morning, Dr. Oussama!";
 
-// Define the custom button for the header
-$headerActionBtn = '
-<a href="patients/create.php" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2.5 rounded-xl font-medium shadow-lg shadow-indigo-500/30 transition flex items-center gap-2">
-    <i class="fa-solid fa-plus"></i> New Patient
-</a>';
 
-include 'header.php'; 
+include './header.php';
 include '../config/connection.php'; 
 ?>
 <?php
+    // 1. Define Queries
+    $PatientQuery           = 'SELECT id,first_name,last_name,gender,email,phone,address FROM patients limit 10';
+    $PatientQueryCounter    = 'SELECT COUNT(*) AS counter FROM patients';
+    $DoctorsQueryCounter    = 'SELECT COUNT(*) as counter FROM doctors';
+    $DepartmentsQueryCounter    = 'SELECT COUNT(*) as counter FROM departments';
 
-    $query = 'SELECT id,first_name,last_name,gender,email,phone,address FROM patients limit 50' ;
-    $result = mysqli_query($conn,$query);
+    // 2. Execute Queries
+    $PatientQueryResult         = mysqli_query($conn, $PatientQuery);
+    $PatientQueryCounterResult  = mysqli_query($conn, $PatientQueryCounter);
+    $DoctorsQueryCounterResult  = mysqli_query($conn, $DoctorsQueryCounter);
+    $DepartmentsQueryCounterResult  = mysqli_query($conn, $DepartmentsQueryCounter);
+
+    // 3. Fetch Counts 
+    // (Do NOT fetch $PatientQueryResult here, or you lose the first patient in your table!)
+    
+    $row_patients = mysqli_fetch_assoc($PatientQueryCounterResult);
+    $row_doctors  = mysqli_fetch_assoc($DoctorsQueryCounterResult);
+    $row_departments = mysqli_fetch_assoc($DepartmentsQueryCounterResult);
+    
+    // 4. Assign Variables
+    $totalPatients = $row_patients['counter'];
+    $totalDoctors  = $row_doctors['counter'];
+    $totalDepts    = $row_departments['counter']; 
 
     
+    // Note: You labeled this $totalDepts in your code, but the query counts Doctors. 
+    // If you need Departments, you need a separate query.
 ?>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
@@ -28,7 +45,7 @@ include '../config/connection.php';
             </div>
             <div>
                 <span class="block text-sm opacity-90 mb-1">Quick Action</span>
-                <h3 class="text-xl font-bold">Add Patient</h3>
+                <h3 class="text-xl font-bold">Log Out</h3>
             </div>
         </a>
 
@@ -98,29 +115,39 @@ include '../config/connection.php';
                             <th class="py-3 font-semibold">Email</th>
                             <th class="py-3 font-semibold">Gender</th>
                             <th class="py-3 font-semibold">Phone</th>
-                            <th class="py-3 font-semibold text-right">address</th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
                         <?php
-                        while ($row = mysqli_fetch_assoc($result)) { 
-                            $fullname = $row['first_name'] . ' ' . $row['last_name'];
-    echo "
-    <tr class='group hover:bg-gray-50 transition'>
-        <td class='py-4 font-medium text-gray-500'>{$row['id']}</td>
-        <td class='py-4'>
-            <div class='flex items-center gap-3'>
-                <img src='https://i.pravatar.cc/150?u=1' class='w-10 h-10 rounded-full object-cover shadow-sm' alt='Avatar'>
-                <span class='font-bold text-gray-700'> {$fullname} </span>
-            </div>
-        </td>
-        <td class='py-4 text-gray-500'>{$row['email']}</td>
-        <td class='py-4 font-medium'>{$row['gender']}</td>
-        <td class='py-4 text-gray-500'>{$row['phone']}</td>
-        <td class='py-4 text-right'>
-            <span class='bg-purple-100 text-purple-600 px-3 py-1 rounded-lg text-xs font-bold'>{$row['address']}</span>
-        </td>
-    </tr>";
+                        while ($row = mysqli_fetch_assoc($PatientQueryResult)) { 
+                                $fullname = $row['first_name'] . ' ' . $row['last_name'];
+                                echo "
+                                <tr class='group hover:bg-gray-50 transition border-b border-gray-100 last:border-0'>
+                                    <td class='py-4 pl-4 font-medium text-gray-500'>{$row['id']}</td>
+                                    <td class='py-4'>
+                                        <div class='flex items-center gap-3'>
+                                            <div class='w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold'>
+                                                " . strtoupper(substr($row['first_name'], 0, 1)) . "
+                                            </div>
+                                            <span class='font-bold text-gray-700'> {$fullname} </span>
+                                        </div>
+                                    </td>
+                                    <td class='py-4 text-gray-500'>{$row['email']}</td>
+                                    <td class='py-4 font-medium'>{$row['gender']}</td>
+                                    <td class='py-4 text-gray-500'>{$row['phone']}</td>
+                                    <td class='py-4 text-right pr-4'>
+                                        <a href='modify.php?id={$row['id']}' 
+                                           class='inline-block text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-1 shadow-md transition-all'>
+                                           Modify
+                                        </a>
+                                    </td>
+                                    <td class='py-4 text-right pr-4'>
+                                        <a href='delete.php?id={$row['id']}' 
+                                           class='inline-block text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-1 shadow-md transition-all'>
+                                           Delete
+                                        </a>
+                                    </td>
+                                </tr>";
 }
 
                         ?>
