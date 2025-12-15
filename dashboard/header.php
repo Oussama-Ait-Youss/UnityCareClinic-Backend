@@ -16,7 +16,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -35,13 +34,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
 
             <nav class="bg-gray-800/50 backdrop-blur-md p-1.5 rounded-full flex gap-1">
-                <a href="index.php" class="px-5 py-2 rounded-full text-sm font-medium transition 
+                <a href="../dashboard/index.php" class="px-5 py-2 rounded-full text-sm font-medium transition 
                 <?php echo ($current_page == 'index.php') ? 'bg-gray-700 shadow-sm' : 'text-gray-400 hover:bg-gray-700/50'; ?>">Dashboard</a>
-                <a href="patients.php" class="px-5 py-2 rounded-full text-sm font-medium transition
+                <a href="../patients/patients.php" class="px-5 py-2 rounded-full text-sm font-medium transition
                 <?php echo ($current_page == 'patients.php') ? 'bg-gray-700 shadow-sm' : 'text-gray-400 hover:bg-gray-700/50'; ?>">Patients</a>
-                <a href="doctors.php" class="px-5 py-2 rounded-full text-sm font-medium transition 
+                <a href="../doctors/doctors.php" class="px-5 py-2 rounded-full text-sm font-medium transition 
                 <?php echo ($current_page == 'doctors.php') ? 'bg-gray-700 shadow-sm' : 'text-gray-400 hover:bg-gray-700/50'; ?>">Doctors</a>
-                <a href="departments.php" class="px-5 py-2 rounded-full text-sm font-medium transition 
+                <a href="../departments/departments.php" class="px-5 py-2 rounded-full text-sm font-medium transition 
                 <?php echo ($current_page == 'departments.php') ? 'bg-gray-700 shadow-sm' : 'text-gray-400 hover:bg-gray-700/50'; ?>">Depts</a>
             </nav>
 
@@ -52,7 +51,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
         <div class="flex flex-col md:flex-row items-center justify-between items-end">
             <div class="flex flex-col justify-center">
-                <h2 class="text-3xl lg:text-4xl font-bold mb-2"><?php echo $headerTitle ?? 'Welcome Back'; ?> 👋</h2>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-2"><?php echo $headerTitle ?? 'Welcome Back'; ?> </h2>
             </div>
             
             <?php if(isset($headerActionBtn)): ?>
