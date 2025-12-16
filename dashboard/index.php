@@ -142,7 +142,7 @@ include '../config/connection.php';
                                         </a>
                                     </td>
                                     <td class='py-4 text-right pr-4'>
-                                        <a href='delete.php?id={$row['id']}' 
+                                        <a href='./delete.php?id={$row['id']}' 
                                            class='inline-block text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-1 shadow-md transition-all'>
                                            Delete
                                         </a>
