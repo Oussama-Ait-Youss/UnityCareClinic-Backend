@@ -22,7 +22,12 @@ include '../config/connection.php';
 ?>
 
 <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
-    
+    <a href="#" 
+       onclick="openAddDeptModal(event)"
+       class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all shadow-md gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+       Add Department
+    </a>
 
     <div class="relative group w-full md:w-64">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
