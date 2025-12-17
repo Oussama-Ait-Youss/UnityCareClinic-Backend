@@ -59,3 +59,51 @@ function openAddPatientModal() {
     // 5. Show the Modal
     document.getElementById('patientModal').classList.remove('hidden');
 }
+    // 1. Close Modal Helper
+    function closeDoctorModal() {
+        document.getElementById('doctorModal').classList.add('hidden');
+    }
+
+    // 2. Open "Add New" Modal (Resets form)
+    function openAddDoctorModal() {
+        document.getElementById('doctorForm').reset();
+        document.getElementById('doctorId').value = ''; // Clear ID for new entry
+        document.getElementById('doctorModalTitle').innerText = 'Add New Doctor';
+        document.getElementById('doctorModal').classList.remove('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 3. Listen for clicks on "Modify" buttons
+        const editButtons = document.querySelectorAll('.edit-doctor-btn');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Get Data
+                const id = this.getAttribute('data-id');
+                const fname = this.getAttribute('data-firstname');
+                const lname = this.getAttribute('data-lastname');
+                const email = this.getAttribute('data-email');
+                const phone = this.getAttribute('data-phone');
+                const specialty = this.getAttribute('data-specialty');
+                const deptId = this.getAttribute('data-dept-id');
+
+                // Fill Inputs
+                document.getElementById('doctorId').value = id;
+                document.getElementById('docFirstName').value = fname;
+                document.getElementById('docLastName').value = lname;
+                document.getElementById('docEmail').value = email;
+                document.getElementById('docPhone').value = phone;
+                document.getElementById('docSpecialty').value = specialty;
+                
+                // Select the correct Department in the dropdown
+                const deptSelect = document.getElementById('docDepartment');
+                if(deptSelect) deptSelect.value = deptId;
+
+                // Show Modal
+                document.getElementById('doctorModalTitle').innerText = 'Modify Doctor';
+                document.getElementById('doctorModal').classList.remove('hidden');
+            });
+        });
+    });
