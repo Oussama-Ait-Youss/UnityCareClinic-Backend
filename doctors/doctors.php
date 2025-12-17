@@ -15,25 +15,20 @@ include '../config/connection.php';
                     LIMIT 10';
 
 
-        // Execute Queries
         $DoctorQueryResult = mysqli_query($conn, $DoctorQuery);
 
 
-        // Fetch Counts 
         $row_doctor = mysqli_fetch_assoc($DoctorQueryResult);
-        // 1. Fetch Department Data
         $deptQuery = "SELECT id, name FROM departments";
         $deptResult = mysqli_query($conn, $deptQuery);
         
-        $departments = []; // Initialize array
+        $departments = []; 
         
-        // 2. Check if query worked
         if ($deptResult) {
             while($dept = mysqli_fetch_assoc($deptResult)){
                 $departments[] = $dept;
             }
         } else {
-            // Optional: Debug if query fails
             echo "Query Failed: " . mysqli_error($conn);
         }
 
