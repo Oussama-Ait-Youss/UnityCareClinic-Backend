@@ -8,19 +8,16 @@ include '../config/connection.php';
 ?>
 
 <?php 
-    // Query: Get Dept info + Doctor Count
     $DeptQuery = 'SELECT dep.id, dep.name, dep.description, COUNT(doc.id) as total_doctors
                   FROM departments dep
                   LEFT JOIN doctors doc ON dep.id = doc.department_id
                   GROUP BY dep.id';
 
-    // Execute Query
     $DeptResult = mysqli_query($conn, $DeptQuery);
     
-    // NOTE: I removed the line "$row = mysqli_fetch_assoc..." that was here before.
-    // It was causing the first department to disappear from the list.
+    
 ?>
-
+<!-- ajouter department and search for it -->
 <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
     <a href="#" 
        onclick="openAddDeptModal(event)"
@@ -37,6 +34,7 @@ include '../config/connection.php';
     </div>
 </div>
 
+<!-- display departments -->
 <div class="overflow-x-auto bg-white rounded-[2rem] p-6 shadow-sm border border-gray-50">
     <table class="w-full text-left border-collapse">
         <thead>
@@ -97,6 +95,7 @@ include '../config/connection.php';
     </table>
 </div>
 
+<!-- department form modal -->
 <div id="deptModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
