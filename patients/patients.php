@@ -22,11 +22,42 @@ include '../config/connection.php';
 
 
 ?>
-<a href="#" 
-   onclick="openAddPatientModal()"
-   class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[0.5rem] text-sm font-medium transition-colors">
-   + Add Patient
-</a>
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+    
+    <a href="#" 
+       onclick="openAddPatientModal()"
+       class="inline-flex items-center justify-center bg-[#22c55e] hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all shadow-md hover:shadow-lg gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+       Add New Patient
+    </a>
+
+    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+        
+        <div class="relative group w-full md:w-64">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <input type="text" 
+                   class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm shadow-sm transition-all" 
+                   placeholder="Search patients by name..." 
+                   aria-label="Search">
+        </div>
+
+        <div class="relative w-full md:w-40">
+            <select class="block w-full pl-3 pr-10 py-3 text-base border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-xl bg-white shadow-sm appearance-none cursor-pointer">
+                <option>All Patients</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Recent</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="overflow-x-auto bg-white rounded-[2rem] p-6">
                 <table class="w-full text-left border-collapse">
@@ -140,7 +171,7 @@ include '../config/connection.php';
                     <button type="submit" class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 sm:ml-3 sm:w-auto sm:text-sm">
                         Save Changes
                     </button>
-                    <button type="button" onclick="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="button" onclick="closeModalpatient()" class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         Cancel
                     </button>
                 </div>
