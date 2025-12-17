@@ -23,7 +23,6 @@ include '../config/connection.php';
         $deptResult = mysqli_query($conn, $deptQuery);
         
         $departments = []; 
-        
         if ($deptResult) {
             while($dept = mysqli_fetch_assoc($deptResult)){
                 $departments[] = $dept;

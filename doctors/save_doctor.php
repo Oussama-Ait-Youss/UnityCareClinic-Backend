@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = trim($_POST['phone']);
     $specialty = trim($_POST['specialty']);
     $department_id = intval($_POST['department_id']); 
-
     // 3. Basic Validation
     if (empty($first_name) || empty($last_name) || empty($email) || empty($department_id)) {
         echo "<script>alert('Please fill in all required fields (Name, Email, Department).'); location.href='doctors.php';</script>";

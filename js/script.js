@@ -164,11 +164,9 @@ function openAddDeptModal(e) {
         // Reset Form & Clear ID
         deptForm.reset();
         document.getElementById('deptId').value = ''; 
-        
         // Update Title
         const title = document.getElementById('modalTitle');
         if(title) title.innerText = 'Add New Department';
-        
         // Show Modal
         deptModal.classList.remove('hidden');
     }
@@ -182,7 +180,6 @@ function openAddDeptModal(e) {
         editButtons.forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault(); 
-                
                 if (!deptModal) return;
 
                 // Get Data from Button

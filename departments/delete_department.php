@@ -4,8 +4,6 @@ require '../config/connection.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-
-  
     $check_query = "SELECT COUNT(*) as count FROM doctors WHERE department_id = ?";
     $stmt_check = mysqli_prepare($conn, $check_query);
     mysqli_stmt_bind_param($stmt_check, "i", $id);
