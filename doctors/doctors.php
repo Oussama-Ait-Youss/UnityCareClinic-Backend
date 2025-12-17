@@ -70,8 +70,9 @@ include '../config/connection.php';
                                     <td class='py-4 font-medium'>{$row['specialty']}</td>
                                     <td class='py-4 text-gray-500'>{$row['name']}</td>
                                 <td class='py-4 text-right pr-4'>
+                                <div class='flex items-center justify-end gap-2'>
                                          <a href='./save_doctor.php' 
-                                            class='edit-doctor-btn inline-block text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-1 shadow-md transition-all'
+                                            class='edit-doctor-btn text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-xs px-3 py-2 transition-all shadow-sm'
                                             data-id='{$row['id']}'
                                             data-firstname='{$row['first_name']}'
                                             data-lastname='{$row['last_name']}'
@@ -79,13 +80,13 @@ include '../config/connection.php';
                                             data-phone='{$row['phone']}' data-specialty='{$row['specialty']}'
                                             data-dept-id='{$row['department_id']}'> Modify
                                          </a>
-                                </td>
-                                <td class='py-4 text-right pr-4'>
+
                                         <a href='delete.php?id={$row['id']}' 
-                                           class='inline-block text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-1 shadow-md transition-all'>
+                                           class='text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-xs px-3 py-2 transition-all shadow-sm'>
                                            Delete
                                         </a>
                                     </td>
+                                    </div>
                                 </tr>";
 }
 
