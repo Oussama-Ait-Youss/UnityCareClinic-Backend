@@ -32,6 +32,23 @@ include '../config/connection.php';
     $totalDoctors  = $row_doctors['counter'];
     $totalDepts    = $row_departments['counter']; 
 
+    // ===============================================
+
+    $deptQuery = "SELECT id, name FROM departments";
+        $deptResult = mysqli_query($conn, $deptQuery);
+        
+        $departments = []; // Initialize array
+        
+        // 2. Check if query worked
+        if ($deptResult) {
+            while($dept = mysqli_fetch_assoc($deptResult)){
+                $departments[] = $dept;
+            }
+        } else {
+            // Optional: Debug if query fails
+            echo "Query Failed: " . mysqli_error($conn);
+        }
+
     
     // Note: You labeled this $totalDepts in your code, but the query counts Doctors. 
     // If you need Departments, you need a separate query.
@@ -49,7 +66,7 @@ include '../config/connection.php';
             </div>
         </a>
 
-        <a href="doctors/create.php" class="bg-[#111827] text-white p-6 rounded-[2rem] flex flex-col justify-between hover:scale-[1.02] transition cursor-pointer h-40">
+        <a href="../doctors/save_doctor.php" onclick="openAddDoctorModal(event)" class="bg-[#111827] text-white p-6 rounded-[2rem] flex flex-col justify-between hover:scale-[1.02] transition cursor-pointer h-40">
             <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
                 <i class="fa-solid fa-user-doctor text-lg"></i>
             </div>
@@ -248,6 +265,69 @@ include '../config/connection.php';
                         Save Changes
                     </button>
                     <button type="button" onclick="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- doctor form modal -->
+<div id="doctorModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+            
+            <form action="save_doctor.php" method="POST" id="doctorForm">
+                <div class="bg-white px-8 pt-8 pb-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6" id="modalTitle">Modify Doctor</h3>
+                    <input type="hidden" name="id" id="doctorId">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                            <input type="text" name="first_name" id="docFirstName" required class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <input type="text" name="last_name" id="docLastName" required class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" id="docEmail" required class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <input type="text" name="phone" id="docPhone" class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border">
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Specialty</label>
+                        <input type="text" name="specialty" id="docSpecialty" class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border">
+                    </div>
+
+                    <div class="mt-5">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                        <select name="department_id" id="docDepartment" required class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border">
+                            <option value="">Select Department</option>
+                            <?php foreach($departments as $dept): ?>
+                                <option value="<?php echo $dept['id']; ?>"><?php echo $dept['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 px-8 py-5 flex flex-row-reverse gap-3">
+                    <button type="submit" class="w-full sm:w-auto inline-flex justify-center rounded-xl border border-transparent shadow-sm px-6 py-2.5 bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none transition-colors">
+                        Save Changes
+                    </button>
+                    <button type="button" onclick="closeModaldoctor()" class="w-full sm:w-auto inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-6 py-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition-colors">
                         Cancel
                     </button>
                 </div>

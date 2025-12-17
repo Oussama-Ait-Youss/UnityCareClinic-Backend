@@ -2,3 +2,4 @@ docker-compose.yml
 .trunk/
 Dockerfile
 .vscode/
+.htaccess
