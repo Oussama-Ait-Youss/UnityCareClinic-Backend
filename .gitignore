@@ -3,3 +3,7 @@ docker-compose.yml
 Dockerfile
 .vscode/
 .htaccess
+.env
+vendor/
+composer.json
+composer.lock
