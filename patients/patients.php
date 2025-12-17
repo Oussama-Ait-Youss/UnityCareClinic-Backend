@@ -22,7 +22,11 @@ include '../config/connection.php';
 
 
 ?>
-
+<a href="#" 
+   onclick="openAddPatientModal()"
+   class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-[0.5rem] text-sm font-medium transition-colors">
+   + Add Patient
+</a>
 
 <div class="overflow-x-auto bg-white rounded-[2rem] p-6">
                 <table class="w-full text-left border-collapse">
