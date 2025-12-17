@@ -1,5 +1,4 @@
 <?php
-// Page Specific Configuration
 $pageTitle = "Unity Care - Dashboard";
 $headerTitle = "Good morning, Dr. Oussama!";
 
@@ -21,7 +20,7 @@ include '../config/connection.php';
     $DepartmentsQueryCounterResult  = mysqli_query($conn, $DepartmentsQueryCounter);
 
     // 3. Fetch Counts 
-    // (Do NOT fetch $PatientQueryResult here, or you lose the first patient in your table!)
+    
     
     $row_patients = mysqli_fetch_assoc($PatientQueryCounterResult);
     $row_doctors  = mysqli_fetch_assoc($DoctorsQueryCounterResult);
@@ -37,21 +36,18 @@ include '../config/connection.php';
     $deptQuery = "SELECT id, name FROM departments";
         $deptResult = mysqli_query($conn, $deptQuery);
         
-        $departments = []; // Initialize array
+        $departments = [];
         
-        // 2. Check if query worked
         if ($deptResult) {
             while($dept = mysqli_fetch_assoc($deptResult)){
                 $departments[] = $dept;
             }
         } else {
-            // Optional: Debug if query fails
             echo "Query Failed: " . mysqli_error($conn);
         }
 
     
-    // Note: You labeled this $totalDepts in your code, but the query counts Doctors. 
-    // If you need Departments, you need a separate query.
+    
 ?>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
@@ -110,6 +106,7 @@ include '../config/connection.php';
         </div>
     </div>
 
+    <!-- display patient -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <div class="lg:col-span-2 bg-white rounded-[2rem] p-6 lg:p-8 shadow-sm">
@@ -180,6 +177,7 @@ include '../config/connection.php';
             </div>
         </div>
 
+        <!-- display statistics -->
         <div class="flex flex-col gap-6">
             <div class="bg-white rounded-[2rem] p-6 shadow-sm">
                 <div class="flex justify-between items-start mb-4">
@@ -207,6 +205,8 @@ include '../config/connection.php';
                 </div>
             </div>
         </div>
+
+        
     </div>
     <!-- modal modify patient -->
 <div id="patientModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">

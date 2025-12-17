@@ -1,7 +1,6 @@
 <?php
 // conenction
 require "../config/connection.php";
-// Set defaults if variables aren't set in the main file
 
 
 $pageTitle = $pageTitle ?? 'Unity Care';
