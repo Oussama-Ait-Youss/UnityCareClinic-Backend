@@ -99,3 +99,117 @@
         if(doctorModal) doctorModal.classList.add('hidden');
     }
 
+
+   function openAddDeptModal(e) {
+        if(e) e.preventDefault(); // Stop page reload
+
+        const modal = document.getElementById('deptModal');
+        const form = document.getElementById('deptForm');
+
+        if (!modal || !form) {
+            console.error("Error: Modal or Form not found. Check IDs 'deptModal' and 'deptForm'");
+            return;
+        }
+
+        // Reset and Prepare Form
+        form.reset();
+        document.getElementById('deptId').value = ''; // Empty ID = Create New
+        const title = document.getElementById('modalTitle');
+        if(title) title.innerText = 'Add New Department';
+        
+        // Show Modal
+        modal.classList.remove('hidden');
+    }
+
+function openAddDeptModal(e) {
+        if(e) e.preventDefault(); // Stop page reload
+
+        const modal = document.getElementById('deptModal');
+        const form = document.getElementById('deptForm');
+
+        if (!modal || !form) {
+            console.error("Error: Modal or Form not found.");
+            return;
+        }
+
+        // Reset Form & Clear ID
+        form.reset();
+        document.getElementById('deptId').value = ''; 
+        
+        // Update Title
+        const title = document.getElementById('modalTitle');
+        if(title) title.innerText = 'Add New Department';
+        
+        // Show Modal
+        modal.classList.remove('hidden');
+    }
+
+    // ==========================================
+    // 1. SETUP VARIABLES
+    // ==========================================
+    const deptModal = document.getElementById('deptModal');
+    const deptForm = document.getElementById('deptForm');
+
+    // ==========================================
+    // 2. OPEN "ADD DEPARTMENT" MODAL
+    // ==========================================
+    function openAddDeptModal(e) {
+        if(e) e.preventDefault(); // Stop page reload
+
+        if (!deptModal || !deptForm) {
+            console.error("Error: Modal elements not found");
+            return;
+        }
+
+        // Reset Form & Clear ID
+        deptForm.reset();
+        document.getElementById('deptId').value = ''; 
+        
+        // Update Title
+        const title = document.getElementById('modalTitle');
+        if(title) title.innerText = 'Add New Department';
+        
+        // Show Modal
+        deptModal.classList.remove('hidden');
+    }
+
+    // ==========================================
+    // 3. OPEN "MODIFY DEPARTMENT" MODAL
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButtons = document.querySelectorAll('.edit-dept-btn');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                
+                if (!deptModal) return;
+
+                // Get Data from Button
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const desc = this.getAttribute('data-description');
+
+                // Fill Form Inputs
+                document.getElementById('deptId').value = id;
+                document.getElementById('deptName').value = name;
+                document.getElementById('deptDesc').value = desc;
+
+                // Update Title
+                const title = document.getElementById('modalTitle');
+                if(title) title.innerText = 'Modify Department';
+
+                // Show Modal
+                deptModal.classList.remove('hidden');
+            });
+        });
+    });
+
+    // ==========================================
+    // 4. CLOSE MODAL (Connected to Cancel Button)
+    // ==========================================
+    function closeModal() {
+        if(deptModal) {
+            deptModal.classList.add('hidden');
+        }
+    }
