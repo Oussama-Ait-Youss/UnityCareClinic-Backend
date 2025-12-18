@@ -5,10 +5,31 @@ require "../config/connection.php";
 
 $pageTitle = $pageTitle ?? 'Unity Care';
 $current_page = basename($_SERVER['PHP_SELF']);
+
+
+// 1. Handle Language Switch
+if (isset($_GET['lang'])) {
+    $lang = $_GET['lang'];
+    if (in_array($lang, ['en', 'fr'])) {
+        $_SESSION['lang'] = $lang;
+    }
+}
+
+// 2. Set Default
+if (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'en';
+}
+
+// 3. Load File
+$langFile = __DIR__ . '/../languages/' . $_SESSION['lang'] . '.php';
+if (file_exists($langFile)) {
+    $t = include($langFile);
+} else {
+    $t = include(__DIR__ . '/../languages/en.php');
+}
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="<?php echo $_SESSION['lang']; ?>"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle; ?></title>
@@ -60,6 +81,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </div>
             <?php endif; ?>
         </div>
+       <div class="flex gap-2">
+    <a href="?<?php echo http_build_query(array_merge($_GET, ['lang' => 'en'])); ?>" 
+       class="px-2 py-1 bg-white rounded hover:bg-gray-300 text-blue-900 text-xs font-bold <?php echo $_SESSION['lang'] == 'en' ? 'bg-blue-200 text-blue-900' : ''; ?>">
+       EN
+    </a>
+    <a href="?<?php echo http_build_query(array_merge($_GET, ['lang' => 'fr'])); ?>" 
+       class="px-2 py-1 bg-white rounded hover:bg-gray-300 text-blue-900 text-xs font-bold <?php echo $_SESSION['lang'] == 'fr' ? 'bg-blue-200 text-blue-900' : ''; ?>">
+       FR
+    </a>
+</div>
     </header>
 </body>
 </html>
