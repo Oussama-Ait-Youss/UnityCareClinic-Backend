@@ -1,6 +1,7 @@
 <?php
 // Page Specific Configuration
 $pageTitle = "Unity Care - Patients";
+
 // We don't set $headerTitle text here, we let header.php handle the translation array first
 include '../dashboard/header.php'; // Loads $t
 include '../config/connection.php'; 
