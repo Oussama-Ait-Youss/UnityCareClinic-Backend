@@ -1,1 +1,9 @@
 docker-compose.yml
+.trunk/
+Dockerfile
+.vscode/
+.htaccess
+.env
+vendor/
+composer.json
+composer.lock
