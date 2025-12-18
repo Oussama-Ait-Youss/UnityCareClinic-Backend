@@ -46,6 +46,35 @@ include '../config/connection.php';
             echo "Query Failed: " . mysqli_error($conn);
         }
 
+        // fetch data for statistics
+        // ... existing queries ...
+
+    // --- CHART 1: Doctors per Department ---
+    $chartDeptQuery = "SELECT dep.name, COUNT(doc.id) as total 
+                       FROM departments dep 
+                       LEFT JOIN doctors doc ON dep.id = doc.department_id 
+                       GROUP BY dep.id";
+    $chartDeptResult = mysqli_query($conn, $chartDeptQuery);
+
+    $deptLabels = [];
+    $deptCounts = [];
+
+    while($row = mysqli_fetch_assoc($chartDeptResult)) {
+        $deptLabels[] = $row['name']; // e.g., ['Cardiology', 'Neurology']
+        $deptCounts[] = $row['total']; // e.g., [5, 2]
+    }
+
+    // --- CHART 2: Patient Demographics (Gender) ---
+    $chartGenderQuery = "SELECT gender, COUNT(*) as total FROM patients GROUP BY gender";
+    $chartGenderResult = mysqli_query($conn, $chartGenderQuery);
+
+    $genderLabels = [];
+    $genderCounts = [];
+
+    while($row = mysqli_fetch_assoc($chartGenderResult)) {
+        $genderLabels[] = $row['gender']; // e.g., ['Male', 'Female']
+        $genderCounts[] = $row['total'];  // e.g., [10, 15]
+    }
     
     
 ?>
@@ -335,5 +364,77 @@ include '../config/connection.php';
         </div>
     </div>
 </div>
+<script>
+    // --- Data from PHP ---
+    const deptLabels = <?php echo json_encode($deptLabels); ?>;
+    const deptData = <?php echo json_encode($deptCounts); ?>;
+    const genderLabels = <?php echo json_encode($genderLabels); ?>;
+    const genderData = <?php echo json_encode($genderCounts); ?>;
+
+    // --- Bar Chart (Doctors per Dept) ---
+    const ctxBar = document.getElementById('barChart');
+    if (ctxBar) {
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: deptLabels,
+                datasets: [{
+                    label: 'Number of Doctors',
+                    data: deptData,
+                    backgroundColor: '#3b82f6', // Blue-500
+                    borderRadius: 8,
+                    barThickness: 30
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { borderDash: [2, 2] }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+
+    // --- Donut Chart (Patient Gender) ---
+    const ctxDonut = document.getElementById('donutChart');
+    if (ctxDonut) {
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: genderLabels,
+                datasets: [{
+                    data: genderData,
+                    backgroundColor: [
+                        '#22c55e', // Green
+                        '#3b82f6', // Blue
+                        '#f59e0b'  // Orange (for Other)
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { usePointStyle: true }
+                    }
+                }
+            }
+        });
+    }
+</script>
 
 <?php include 'footer.php'; ?>
