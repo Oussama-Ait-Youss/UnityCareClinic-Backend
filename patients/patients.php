@@ -6,6 +6,9 @@ $headerTitle = "Patient Management";
 
 include '../dashboard/header.php';
 include '../config/connection.php'; 
+
+
+
 ?>
 <?php 
         // Query

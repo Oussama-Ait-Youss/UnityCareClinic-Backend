@@ -1,5 +1,4 @@
 <?php
-// save_department.php
 require '../config/connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -17,13 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 3. Decision: Insert or Update?
     if (empty($id)) {
-        // --- CREATE NEW ---
         $query = "INSERT INTO departments (name, description, created_at) VALUES (?, ?, NOW())";
         $stmt = mysqli_prepare($conn, $query);
         mysqli_stmt_bind_param($stmt, "ss", $name, $description);
         $msg = "created";
     } else {
-        // --- UPDATE EXISTING ---
         $query = "UPDATE departments SET name=?, description=?, updated_at=NOW() WHERE id=?";
         $stmt = mysqli_prepare($conn, $query);
         mysqli_stmt_bind_param($stmt, "ssi", $name, $description, $id);
@@ -39,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_close($stmt);
 
 } else {
-    // If accessed directly without POST
     header("Location: departments.php");
 }
 ?>
