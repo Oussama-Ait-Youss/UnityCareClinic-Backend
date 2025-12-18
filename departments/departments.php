@@ -3,8 +3,11 @@
 $pageTitle = "Unity Care - Departments";
 $headerTitle = "Departments Management";
 
-include '../dashboard/header.php';
+include '../dashboard/header.php'; // Loads $t
 include '../config/connection.php'; 
+
+// Translation for Header
+$headerTitle = $t['departments_management'] ?? 'Departments Management';
 ?>
 
 <?php 
@@ -14,36 +17,34 @@ include '../config/connection.php';
                   GROUP BY dep.id';
 
     $DeptResult = mysqli_query($conn, $DeptQuery);
-    
-    
 ?>
-<!-- ajouter department and search for it -->
+
 <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
     <a href="#" 
        onclick="openAddDeptModal(event)"
        class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all shadow-md gap-2">
        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-       Add Department
+       <?php echo $t['add_department'] ?? 'Add Department'; ?>
     </a>
 
     <div class="relative group w-full md:w-64">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </div>
-        <input type="text" class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm shadow-sm" placeholder="Search departments...">
+        <input type="text" class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm shadow-sm" 
+               placeholder="<?php echo $t['search_placeholder'] ?? 'Search departments...'; ?>">
     </div>
 </div>
 
-<!-- display departments -->
 <div class="overflow-x-auto bg-white rounded-[2rem] p-6 shadow-sm border border-gray-50">
     <table class="w-full text-left border-collapse">
         <thead>
             <tr class="text-xs text-gray-400 uppercase border-b border-gray-100">
-                <th class="py-4 pl-4 font-semibold">ID</th>
-                <th class="py-4 font-semibold">Department Name</th>
-                <th class="py-4 font-semibold">Description</th>
-                <th class="py-4 font-semibold">Stats</th>
-                <th class="py-4 pr-4 font-semibold text-right">Actions</th>
+                <th class="py-4 pl-4 font-semibold"><?php echo $t['id']; ?></th>
+                <th class="py-4 font-semibold"><?php echo $t['dept_name'] ?? 'Department Name'; ?></th>
+                <th class="py-4 font-semibold"><?php echo $t['description'] ?? 'Description'; ?></th>
+                <th class="py-4 font-semibold"><?php echo $t['statistics']; ?></th>
+                <th class="py-4 pr-4 font-semibold text-right"><?php echo $t['actions'] ?? 'Actions'; ?></th>
             </tr>
         </thead>
         <tbody class="text-sm">
@@ -51,6 +52,10 @@ include '../config/connection.php';
             if ($DeptResult) {
                 while ($row = mysqli_fetch_assoc($DeptResult)) { 
                     $initial = strtoupper(substr($row['name'], 0, 1));
+                    
+                    // FIX: Define the message variable BEFORE the echo
+                    $confirmMsg = $t['delete_confirm'] ?? 'Are you sure?';
+                    
                     echo "
                     <tr class='group hover:bg-gray-50 transition border-b border-gray-100 last:border-0'>
                         <td class='py-4 pl-4 font-medium text-gray-500'>#{$row['id']}</td>
@@ -77,13 +82,13 @@ include '../config/connection.php';
                                    data-id='{$row['id']}'
                                    data-name='{$row['name']}'
                                    data-description='{$row['description']}'>
-                                   Modify
+                                   {$t['modify']}
                                 </a>
 
                                 <a href='./delete_department.php?id={$row['id']}' 
-                                   onclick=\"return confirm('Are you sure? This department cannot be deleted if it has doctors.');\"
+                                   onclick=\"return confirm('$confirmMsg');\"
                                    class='text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-xs px-3 py-2 transition-all shadow-sm'>
-                                   Delete
+                                   {$t['delete']}
                                 </a>
                             </div>
                         </td>
@@ -95,7 +100,6 @@ include '../config/connection.php';
     </table>
 </div>
 
-<!-- department form modal -->
 <div id="deptModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
@@ -104,16 +108,16 @@ include '../config/connection.php';
             
             <form action="save_department.php" method="POST" id="deptForm">
                 <div class="bg-white px-8 pt-8 pb-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-6" id="modalTitle">Modify Department</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-6" id="modalTitle"><?php echo $t['modify_dept'] ?? 'Modify Department'; ?></h3>
                     <input type="hidden" name="id" id="deptId">
                     
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Department Name</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo $t['dept_name'] ?? 'Department Name'; ?></label>
                             <input type="text" name="name" id="deptName" required class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1"><?php echo $t['description'] ?? 'Description'; ?></label>
                             <textarea name="description" id="deptDesc" rows="3" class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2.5 px-3 bg-gray-50 border"></textarea>
                         </div>
                     </div>
@@ -121,10 +125,10 @@ include '../config/connection.php';
                 
                 <div class="bg-gray-50 px-8 py-5 flex flex-row-reverse gap-3">
                     <button type="submit" class="w-full sm:w-auto inline-flex justify-center rounded-xl border border-transparent shadow-sm px-6 py-2.5 bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none transition-colors">
-                        Save Changes
+                        <?php echo $t['save_changes']; ?>
                     </button>
-                    <button type="button" onclick="closeModal()" class="w-full sm:w-auto inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-6 py-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition-colors">
-                        Cancel
+                    <button type="button" onclick="closeModaldep()" class="w-full sm:w-auto inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-6 py-2.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition-colors">
+                        <?php echo $t['cancel']; ?>
                     </button>
                 </div>
             </form>
