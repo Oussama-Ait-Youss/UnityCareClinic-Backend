@@ -364,6 +364,8 @@ include '../config/connection.php';
         </div>
     </div>
 </div>
+
+<!-- script display statistics -->
 <script>
     // --- Data from PHP ---
     const deptLabels = <?php echo json_encode($deptLabels); ?>;
@@ -371,7 +373,6 @@ include '../config/connection.php';
     const genderLabels = <?php echo json_encode($genderLabels); ?>;
     const genderData = <?php echo json_encode($genderCounts); ?>;
 
-    // --- Bar Chart (Doctors per Dept) ---
     const ctxBar = document.getElementById('barChart');
     if (ctxBar) {
         new Chart(ctxBar, {
