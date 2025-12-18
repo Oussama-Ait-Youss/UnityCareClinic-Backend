@@ -6,11 +6,11 @@ $pageTitle = "Unity Care - Patients";
 include '../dashboard/header.php'; // Loads $t
 include '../config/connection.php'; 
 
+        
+
 // Use Translation for Header Title
 $headerTitle = $t['patient_management'] ?? 'Patient Management'; // Fallback if key missing
-?>
 
-<?php 
     // Query
     $PatientQuery  = 'SELECT id,first_name,last_name,gender,email,phone,address FROM patients limit 10';
     // Execute Queries
