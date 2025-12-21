@@ -81,7 +81,7 @@ include '../config/connection.php';
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
         
-        <a href="patients/create.php" class="bg-[#22c55e] text-white p-6 rounded-[2rem] flex flex-col justify-between hover:scale-[1.02] transition cursor-pointer h-40 group">
+        <a href="../auth/logout.php" class="bg-[#22c55e] text-white p-6 rounded-[2rem] flex flex-col justify-between hover:scale-[1.02] transition cursor-pointer h-40 group">
             <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                 <i class="fa-solid fa-arrow-right-to-bracket text-lg"></i>
             </div>

@@ -185,7 +185,7 @@ function openAddDeptModal(e) {
     // ==========================================
     // 4. CLOSE MODAL (Connected to Cancel Button)
     // ==========================================
-    function closeModal() {
+    function closeModaldep() {
         if(deptModal) {
             deptModal.classList.add('hidden');
         }
